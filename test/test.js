@@ -13,7 +13,7 @@ var people = {
    },
    "mary": {
        age: 15,
-        movies: [{
+       movies: [{
            name: "Twilight",
            stars: 3
        }]
@@ -27,6 +27,9 @@ assert.deepEqual(select(people, ".george").nodes(), [{"age":35,"movies":[{"name"
 assert.deepEqual(select(people, ".george .age").nodes(), [35]);
 assert.deepEqual(select(people, ".george .name").nodes(), ["Repo Man"]);
 assert.deepEqual(select(people, ".mary *").nodes(), [15,[{"name":"Twilight","stars":3}],{"name":"Twilight","stars":3},"Twilight",3])
+
+assert.deepEqual(select(people, ".mary > *").nodes(), [15,[{"name":"Twilight","stars":3}]]);
+assert.deepEqual(select(people, ".george > .name").nodes(), []);
 
 // invalid
 assert.deepEqual(select(people, ".hmmm").nodes(), []);
@@ -53,6 +56,10 @@ assert.deepEqual(select(people2, ".age").nodes(), [45, 25])
 // bigger stuff
 var timeline = require("./timeline.json")
 
+var t1 = Date.now();
 assert.deepEqual(select(timeline, ".bug .id").nodes().length, 126);
 assert.deepEqual(select(timeline, ".id").nodes().length, 141);
 assert.deepEqual(select(timeline, ".comments .id").nodes().length, 115);
+var t2 = Date.now() - t1;
+
+console.log(t2);

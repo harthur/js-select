@@ -40,11 +40,21 @@ function isMatch(sel, context) {
    }
 
    // walk up the ancestors
-   while(parts.length && i < path.length) {
-      if (matchesPart(parts[0], path[i])) {
-         parts.pop();
+   while(parts.length && path.length) {
+      var part = parts[0],
+          key = path[0];
+      if (part == ">") {
+         if (!matchesPart(parts[1], key)) {
+            return false;
+         }
+         parts.shift();
       }
-      i++;
+      else {
+         if (matchesPart(part, key)) {
+            parts.shift();
+         }
+         path.shift();
+      }
    }
    return parts.length == 0;
 }

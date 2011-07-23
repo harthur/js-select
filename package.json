@@ -1,6 +1,6 @@
 {
     "name": "js-select",
-    "description": "A mashup of js-traverse and a tiny subset of JSONSelect",
+    "description": "Traverse and modify JavaScript objects with JSONSelect selectors",
     "version": "0.1.0",
     "author": "Heather Arthur <fayearthur@gmail.com>",
     "repository": {
