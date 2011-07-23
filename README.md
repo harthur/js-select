@@ -18,12 +18,12 @@ var people = {
    }
 }
 
-select(people).forEach(".age", function(age) {
+select(people, ".age").forEach(function(age) {
      // make everyone look younger!
     this.update(age - 5);
 })
 
-select(people).nodes(".age");  // [30, 10] 
+select(people, ".age").nodes();  // [30, 10] 
 ```
 
 See [js-traverse](https://github.com/substack/js-traverse) for all the things you can do to modify the node. The `forEach()` callback will get the same context (`this`) as the `forEach()` callback in [js-traverse](https://github.com/substack/js-traverse), plus a `this.matches()` which will test if the node matches a selector:

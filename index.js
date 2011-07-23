@@ -1,20 +1,19 @@
 var traverse = require("traverse"),
     JSONSelect = require("JSONSelect");
 
-module.exports = function(obj) {
+module.exports = function(obj, sel) {
+   sel = sel || "*";
+
    return {
-      nodes: function(sel) {
+      nodes: function() {
          var nodes = [];
-         this.forEach(sel, function(node) {
+         this.forEach(function(node) {
             nodes.push(node);
          });
          return nodes;
       },
 
-      forEach: function(sel, cb) {
-         if (arguments.length == 1) {
-            cb = sel, sel = "*";
-         }
+      forEach: function(cb) {
          traverse(obj).forEach(function(node) {
             if (isMatch(sel, this)) {
                this.matches = function(sel) {
