@@ -1,5 +1,5 @@
 {
-    "name": "select",
+    "name": "js-select",
     "description": "A mashup of js-traverse and a tiny subset of JSONSelect",
     "version": "0.1.0",
     "author": "Heather Arthur <fayearthur@gmail.com>",

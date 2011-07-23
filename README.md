@@ -5,7 +5,7 @@ js-select is a little mashup of [js-traverse](https://github.com/substack/js-tra
 It lets you traverse and modify JavaScript object nodes that match JSONSelect selectors:
 
 ```javascript
-var select = require("select");
+var select = require("js-select");
 
 var people = {
    george: {
