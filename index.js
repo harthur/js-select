@@ -33,28 +33,29 @@ function isMatch(sel, context) {
        i = 0;
    parts.reverse();
    path.reverse();
-
-   if (!matchesPart(parts.shift(), path.shift())) {
-      // last part of selector should match node
-      return false;
-   }
+   path.push("");
 
    // walk up the ancestors
+   var must = true;
    while(parts.length && path.length) {
       var part = parts[0],
           key = path[0];
+
       if (part == ">") {
-         if (!matchesPart(parts[1], key)) {
-            return false;
-         }
+         parts.shift();
+         must = true;
+         continue;
+      }
+
+      if (matchesPart(part, key)) {
          parts.shift();
       }
-      else {
-         if (matchesPart(part, key)) {
-            parts.shift();
-         }
-         path.shift();
+      else if(must) {
+         return false;
       }
+
+      path.shift();
+      must = false;
    }
    return parts.length == 0;
 }
