@@ -69,8 +69,18 @@ assert.deepEqual(select(people2, ".age").nodes(), [45, 25])
 // bigger stuff
 var timeline = require("./timeline.json")
 
-console.time("big")
-assert.deepEqual(select(timeline, ".bug .id").nodes().length, 126);
-assert.deepEqual(select(timeline, ".id").nodes().length, 141);
-assert.deepEqual(select(timeline, ".comments .id").nodes().length, 115);
-console.timeEnd("big")
+console.time("select time");
+assert.equal(select(timeline, ".bug .id").nodes().length, 126);
+assert.equal(select(timeline, ".id").nodes().length, 141);
+assert.equal(select(timeline, ".comments .id").nodes().length, 115);
+assert.equal(select(timeline, "*").nodes().length, 3281);
+console.timeEnd("select time")
+
+var sel = require("JSONSelect");
+
+console.time("JSONSelect time")
+assert.equal(sel.match(".bug .id", timeline).length, 126);
+assert.equal(sel.match(".id", timeline).length, 141);
+assert.equal(sel.match(".comments .id", timeline).length, 115);
+assert.equal(sel.match("*", timeline).length, 3281);
+console.timeEnd("JSONSelect time")

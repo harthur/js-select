@@ -2,7 +2,7 @@ var traverse = require("traverse"),
     JSONSelect = require("JSONSelect");
 
 module.exports = function(obj, sel) {
-   sel = sel || "*";
+   sel = JSONSelect._parse(sel || "*")[1];
 
    return {
       nodes: function() {
@@ -17,7 +17,7 @@ module.exports = function(obj, sel) {
          traverse(obj).forEach(function(node) {
             if (isMatch(sel, this)) {
                this.matches = function(sel) {
-                  return isMatch(sel, this);
+                  return isMatch(JSONSelect._parse(sel)[1], this);
                };
                // inherit context from js-traverse
                cb.call(this, node);            
@@ -28,36 +28,33 @@ module.exports = function(obj, sel) {
 }
 
 function isMatch(sel, context) {
-   var parts = JSONSelect._parse(sel)[1],
-       path = traverse.clone(context.path),
-       i = 0;
-   parts.reverse();
-   path.reverse();
-   path.push("");
+   var path = [""].concat(context.path),
+       i = path.length - 1,
+       j = sel.length - 1;
 
    // walk up the ancestors
    var must = true;
-   while(parts.length && path.length) {
-      var part = parts[0],
-          key = path[0];
+   while(j >= 0 && i >= 0) {
+      var part = sel[j],
+          key = path[i];
 
       if (part == ">") {
-         parts.shift();
+         j--;
          must = true;
          continue;
       }
 
       if (matchesKey(part, key)) {
-         parts.shift();
+         j--;
       }
       else if(must) {
          return false;
       }
 
-      path.shift();
+      i--;
       must = false;
    }
-   return parts.length == 0;
+   return j == -1;
 }
 
 function matchesKey(part, key) {

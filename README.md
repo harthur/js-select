@@ -57,4 +57,12 @@ Download the code, then with [npm](http://npmjs.org):
 npm install js-select
 ```
 
-Get a browser file after npm-installing using [browserify](https://github.com/substack/node-browserify)
+Get a browser file after npm-installing using [browserify](https://github.com/substack/node-browserify):
+
+```bash
+npm install browserify -g
+npm install js-select
+
+browserify --require js-select --outfile select.js
+```
+this will build a browser file with `require('js-select')` available.
