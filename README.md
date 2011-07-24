@@ -28,7 +28,7 @@ See [js-traverse](https://github.com/substack/js-traverse) for all the things yo
 ```javascript
 select(obj).forEach(function(node) {
    if (this.matches(".mary > .movie")) {
-      this.update(node.toLowerCase());
+      this.remove();
    }
 }
 ```
@@ -43,10 +43,13 @@ js-select supports the following [JSONSelect](http://jsonselect.org/) selectors 
 ".ancestor .key"
 ".parent > .key"
 ":root"
+":nth-child(2)"
 ":nth-child(n)"
 ":nth-child(even)"
 ":nth-child(odd)"
+":nth-last-child(2)"
 ":first-child"
+":last-child"
 ```
 
 # install

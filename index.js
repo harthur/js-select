@@ -28,7 +28,7 @@ module.exports = function(obj, sel) {
 }
 
 function isMatch(sel, context) {
-   var path = [""].concat(context.path),
+   var path = context.parents.concat([context]),
        i = path.length - 1,
        j = sel.length - 1;
 
@@ -36,7 +36,7 @@ function isMatch(sel, context) {
    var must = true;
    while(j >= 0 && i >= 0) {
       var part = sel[j],
-          key = path[i];
+          context = path[i];
 
       if (part == ">") {
          j--;
@@ -44,7 +44,7 @@ function isMatch(sel, context) {
          continue;
       }
 
-      if (matchesKey(part, key)) {
+      if (matchesKey(part, context)) {
          j--;
       }
       else if(must) {
@@ -57,21 +57,29 @@ function isMatch(sel, context) {
    return j == -1;
 }
 
-function matchesKey(part, key) {
+function matchesKey(part, context) {
+   var key = context.key;
+
    if (part.id && part.id != key) {
       return false;
    }
    if (part.pf == ":nth-child") {
-      if (part.a == 0
-          && (parseInt(key) + 1) !== part.b) {
+      var index = parseInt(key);
+
+      if ((part.a == 0 && (index + 1) !== part.b)     // :nth-child(i)
+        || (part.a == 1 && !(index + 1 >= -part.b))   // :nth-child(n)
+        || (part.a == -1 && !(index < part.b))        // :nth-child(-n + 1)
+        || (part.a == 2 && (index % 2) != part.b)) {  // :nth-child(even)
          return false;
       }
-      else if (part.a == 2
-               && (parseInt(key) % 2) != part.b) {
-         return false ;
+   }
+   else if (part.pf == ":nth-last-child") {
+      var n = context.parent && context.parent.node.length;
+      if (!n || !(n - part.b == key)) {
+         return false;
       }
    }
-   if (part.pc == ":root" && key != "") {
+   else if (part.pc == ":root" && key !== undefined) {
       return false;
    }
    return true;

@@ -38,9 +38,21 @@ assert.deepEqual(select(people, ".george *").nodes(), [35,[{"name":"Repo Man","s
 assert.deepEqual(select(people, ".george > *").nodes(), [35,[{"name":"Repo Man","stars":5}]]);
 assert.deepEqual(select(people, ".george > .name").nodes(), []);
 
+assert.deepEqual(select(people, ":first-child").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3}]);
+assert.deepEqual(select(people, ":nth-child(1)").nodes(), select(people, ":first-child").nodes());
 assert.deepEqual(select(people, ":nth-child(2)").nodes(), [{"name":"Trudy","stars":2}]);
 assert.deepEqual(select(people, ":nth-child(even)").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3},{"name":"The Fighter","stars":4}]);
 assert.deepEqual(select(people, ":nth-child(odd)").nodes(), [{"name":"Trudy","stars":2}]);
+
+assert.deepEqual(select(people, ":nth-child(-n+1)").nodes(), select(people, ":first-child").nodes());
+assert.deepEqual(select(people, ":nth-child(-n+2)").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3},{"name":"Trudy","stars":2}]);
+assert.deepEqual(select(people, ":nth-child(n)").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]);
+assert.deepEqual(select(people, ":nth-child(n-1)").nodes(), select(people, ":nth-child(n)").nodes());
+assert.deepEqual(select(people, ":nth-child(n-2)").nodes(), [{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]);
+
+assert.deepEqual(select(people, ":last-child").nodes(), [{"name":"Repo Man","stars":5},{"name":"The Fighter","stars":4}]);
+assert.deepEqual(select(people, ":nth-last-child(1)").nodes(), select(people, ":last-child").nodes());
+assert.deepEqual(select(people, ":nth-last-child(2)").nodes(), [{"name":"Trudy","stars":2}]);
 assert.deepEqual(select(people, ":root").nodes(), [{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]}}]);
 
 
