@@ -47,7 +47,7 @@ function isMatch(sel, context) {
          continue;
       }
 
-      if (matchesPart(part, key)) {
+      if (matchesKey(part, key)) {
          parts.shift();
       }
       else if(must) {
@@ -60,7 +60,22 @@ function isMatch(sel, context) {
    return parts.length == 0;
 }
 
-function matchesPart(part, key) {
-   return traverse.deepEqual(part, {})
-       || (part.id && part.id == key);
+function matchesKey(part, key) {
+   if (part.id && part.id != key) {
+      return false;
+   }
+   if (part.pf == ":nth-child") {
+      if (part.a == 0
+          && (parseInt(key) + 1) !== part.b) {
+         return false;
+      }
+      else if (part.a == 2
+               && (parseInt(key) % 2) != part.b) {
+         return false ;
+      }
+   }
+   if (part.pc == ":root" && key != "") {
+      return false;
+   }
+   return true;
 }

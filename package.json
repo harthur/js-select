@@ -1,7 +1,7 @@
 {
     "name": "js-select",
-    "description": "Traverse and modify JavaScript objects with JSONSelect selectors",
-    "version": "0.1.0",
+    "description": "Traverse and modify objects with JSONSelect selectors",
+    "version": "0.2.0",
     "author": "Heather Arthur <fayearthur@gmail.com>",
     "repository": {
         "type": "git",
