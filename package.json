@@ -13,6 +13,8 @@
         "JSONSelect": "0.2.x"
     },
     "devDependencies": {
+        "nomnom": "0.6.x",
+        "color": "0.3.x"
     },
     "keywords": ["json"]
 }
