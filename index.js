@@ -1,8 +1,8 @@
 var traverse = require("traverse"),
     JSONSelect = require("JSONSelect");
 
-module.exports = function(obj, sel) {
-   sel = JSONSelect._parse(sel || "*")[1];
+module.exports = function(obj, string) {
+   sels = parseSelectors(string);
 
    return {
       nodes: function() {
@@ -15,9 +15,9 @@ module.exports = function(obj, sel) {
 
       forEach: function(cb) {
          traverse(obj).forEach(function(node) {
-            if (isMatch(sel, this)) {
-               this.matches = function(sel) {
-                  return isMatch(JSONSelect._parse(sel)[1], this);
+            if (matchesAny(sels, this)) {
+               this.matches = function(string) {
+                  return matchesAny(parseSelectors(string), this);
                };
                // inherit context from js-traverse
                cb.call(this, node);            
@@ -27,7 +27,24 @@ module.exports = function(obj, sel) {
    };
 }
 
-function isMatch(sel, context) {
+function parseSelectors(string) {
+   var parsed = JSONSelect._parse(string || "*")[1];
+   if (parsed[0] == ",") {
+      return parsed.slice(1);
+   }
+   return [parsed];
+}
+
+function matchesAny(sels, context) {
+   for (var i = 0; i < sels.length; i++) {
+      if (matches(sels[i], context)) {
+         return true;
+      }
+   }
+   return false;
+}
+
+function matches(sel, context) {
    var path = context.parents.concat([context]),
        i = path.length - 1,
        j = sel.length - 1;

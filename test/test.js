@@ -65,6 +65,8 @@ assert.deepEqual(select(people, "object").nodes(),[{"george":{"age":35,"movies":
 assert.deepEqual(select(people, "array").nodes(),[[{"name":"Repo Man","stars":5}],[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]]);
 assert.deepEqual(select(people, "null").nodes(),[null]);
 
+assert.deepEqual(select(people, "number, string, boolean").nodes(), [35,"Repo Man",5,15,"Twilight",3,"Trudy",2,"The Fighter",4,true])
+
 
 // invalid
 assert.deepEqual(select(people, ".hmmm").nodes(), []);
@@ -95,6 +97,8 @@ console.time("select time");
 assert.equal(select(timeline, ".bug .id").nodes().length, 126);
 assert.equal(select(timeline, ".id").nodes().length, 141);
 assert.equal(select(timeline, ".comments .id").nodes().length, 115);
+assert.equal(select(timeline, ":nth-child(n-2)").nodes().length, 335);
+assert.equal(select(timeline, "object").nodes().length, 927);
 assert.equal(select(timeline, "*").nodes().length, 3281);
 console.timeEnd("select time")
 
@@ -104,5 +108,7 @@ console.time("JSONSelect time")
 assert.equal(sel.match(".bug .id", timeline).length, 126);
 assert.equal(sel.match(".id", timeline).length, 141);
 assert.equal(sel.match(".comments .id", timeline).length, 115);
+assert.equal(sel.match(":nth-child(n-2)", timeline).length, 335);
+assert.equal(sel.match("object", timeline).length, 927);
 assert.equal(sel.match("*", timeline).length, 3281);
 console.timeEnd("JSONSelect time")
