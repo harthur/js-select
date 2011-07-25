@@ -72,3 +72,7 @@ npm install js-select
 browserify --require js-select --outfile select.js
 ```
 this will build a browser file with `require('js-select')` available.
+
+# propers
+
+Huge thanks to [@substack](http://github.com/substack) for the ingenious [js-traverse](https://github.com/substack/js-traverse) and [@lloyd](https://github.com/lloyd) for the ingenious [JSONSelect spec](http://http://jsonselect.org/) and [selector parser](http://search.npmjs.org/#/JSONSelect).
