@@ -44,8 +44,8 @@ assert.deepEqual(select(people, ".george > .name").nodes(), []);
 assert.deepEqual(select(people, ":first-child").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3}]);
 assert.deepEqual(select(people, ":nth-child(1)").nodes(), select(people, ":first-child").nodes());
 assert.deepEqual(select(people, ":nth-child(2)").nodes(), [{"name":"Trudy","stars":2}]);
-assert.deepEqual(select(people, ":nth-child(even)").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3},{"name":"The Fighter","stars":4}]);
-assert.deepEqual(select(people, ":nth-child(odd)").nodes(), [{"name":"Trudy","stars":2}]);
+assert.deepEqual(select(people, ":nth-child(odd)").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3},{"name":"The Fighter","stars":4}]);
+assert.deepEqual(select(people, ":nth-child(even)").nodes(), [{"name":"Trudy","stars":2}]);
 
 assert.deepEqual(select(people, ":nth-child(-n+1)").nodes(), select(people, ":first-child").nodes());
 assert.deepEqual(select(people, ":nth-child(-n+2)").nodes(), [{"name":"Repo Man","stars":5},{"name":"Twilight","stars":3},{"name":"Trudy","stars":2}]);

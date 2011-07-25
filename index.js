@@ -102,11 +102,11 @@ function matchesKey(part, context) {
       }
    }
    if (part.pf == ":nth-child") {
-      var index = parseInt(key);
-      if ((part.a == 0 && (index + 1) !== part.b)     // :nth-child(i)
-        || (part.a == 1 && !(index + 1 >= -part.b))   // :nth-child(n)
-        || (part.a == -1 && !(index < part.b))        // :nth-child(-n + 1)
-        || (part.a == 2 && (index % 2) != part.b)) {  // :nth-child(even)
+      var index = parseInt(key) + 1;
+      if ((part.a == 0 && index !== part.b)         // :nth-child(i)
+        || (part.a == 1 && !(index >= -part.b))     // :nth-child(n)
+        || (part.a == -1 && !(index <= part.b))     // :nth-child(-n + 1)
+        || (part.a == 2 && index % 2 != part.b)) {  // :nth-child(even)
          return false;
       }
    }
