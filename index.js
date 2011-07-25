@@ -75,7 +75,9 @@ function matches(sel, context) {
 }
 
 function matchesKey(part, context) {
-   var key = context.key;
+   var key = context.key,
+       node = context.node,
+       parent = context.parent;
 
    if (part.id && key != part.id) {
       return false;
@@ -110,13 +112,19 @@ function matchesKey(part, context) {
          return false;
       }
    }
-   else if (part.pf == ":nth-last-child") {
+   if (part.pf == ":nth-last-child") {
       var n = context.parent && context.parent.node.length;
-      if (!n || !(n - part.b == key)) {
+      if (!n || key != n - part.b) {
          return false;
       }
    }
-   else if (part.pc == ":root" && key !== undefined) {
+   if (part.pc == ":only-child") {
+      var n = context.parent && context.parent.node.length;
+      if (!n || n != 1) {
+         return false;
+      }
+   }
+   if (part.pc == ":root" && key !== undefined) {
       return false;
    }
    return true;

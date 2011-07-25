@@ -38,19 +38,20 @@ select(obj).forEach(function(node) {
 js-select supports the following [JSONSelect](http://jsonselect.org/) selectors so far:
 
 ```
-"*"
-"type"
-".key"
-".ancestor .key"
-".parent > .key"
-":root"
-":nth-child(i)"
-":nth-child(n)"
-":nth-child(even)"
-":nth-child(odd)"
-":nth-last-child(i)"
-":first-child"
-":last-child"
+*
+type
+.key
+.ancestor .key
+.parent > .key
+:root
+:nth-child(i)
+:nth-child(n)
+:nth-child(even)
+:nth-child(odd)
+:nth-last-child(i)
+:first-child
+:last-child
+:only-child
 ```
 
 See [details](http://jsonselect.org/#docs/overview) on each selector, and [try them](http://jsonselect.org/#tryit) out on the JSONSelect website.

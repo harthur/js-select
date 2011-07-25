@@ -56,6 +56,7 @@ assert.deepEqual(select(people, ":nth-child(n-2)").nodes(), [{"name":"Trudy","st
 assert.deepEqual(select(people, ":last-child").nodes(), [{"name":"Repo Man","stars":5},{"name":"The Fighter","stars":4}]);
 assert.deepEqual(select(people, ":nth-last-child(1)").nodes(), select(people, ":last-child").nodes());
 assert.deepEqual(select(people, ":nth-last-child(2)").nodes(), [{"name":"Trudy","stars":2}]);
+assert.deepEqual(select(people, ":only-child").nodes(), [{"name":"Repo Man","stars":5}]);
 assert.deepEqual(select(people, ":root").nodes(),[{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},"chris":{"car":null,"male":true}}]) 
 
 assert.deepEqual(select(people, "string").nodes(),["Repo Man","Twilight","Trudy","The Fighter"]);
