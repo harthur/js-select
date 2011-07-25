@@ -60,12 +60,32 @@ function isMatch(sel, context) {
 function matchesKey(part, context) {
    var key = context.key;
 
-   if (part.id && part.id != key) {
+   if (part.id && key != part.id) {
       return false;
+   }
+   if (part.type) {
+      if (part.type == "null") {
+         if (context.node !== null) {
+            return false;
+         }
+      }
+      else if (part.type == "array") {
+         if (!isArray(context.node)) {
+            return false;
+         }
+      }
+      else if (part.type == "object") {
+         if (typeof context.node != "object"
+             || context.node === null || isArray(context.node)) {
+             return false;
+         }
+      }
+      else if (part.type != typeof context.node) {
+         return false;
+      }
    }
    if (part.pf == ":nth-child") {
       var index = parseInt(key);
-
       if ((part.a == 0 && (index + 1) !== part.b)     // :nth-child(i)
         || (part.a == 1 && !(index + 1 >= -part.b))   // :nth-child(n)
         || (part.a == -1 && !(index < part.b))        // :nth-child(-n + 1)
@@ -83,4 +103,8 @@ function matchesKey(part, context) {
       return false;
    }
    return true;
+}
+
+var isArray = Array.isArray || function(obj) {
+    return toString.call(obj) === '[object Array]';
 }

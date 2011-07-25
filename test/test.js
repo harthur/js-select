@@ -25,11 +25,14 @@ var people = {
           name: "The Fighter",
           stars: 4
        }]
+   },
+   "chris" : {
+      car: null,
+      male: true
    }
 }
 var people2 = traverse.clone(people);
-
-assert.deepEqual(select(people, "*").nodes(), [{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]}},{"age":35,"movies":[{"name":"Repo Man","stars":5}]},35,[{"name":"Repo Man","stars":5}],{"name":"Repo Man","stars":5},"Repo Man",5,{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},15,[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}],{"name":"Twilight","stars":3},"Twilight",3,{"name":"Trudy","stars":2},"Trudy",2,{"name":"The Fighter","stars":4},"The Fighter",4]);
+assert.deepEqual(select(people, "*").nodes(), [{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},"chris":{"car":null,"male":true}},{"age":35,"movies":[{"name":"Repo Man","stars":5}]},35,[{"name":"Repo Man","stars":5}],{"name":"Repo Man","stars":5},"Repo Man",5,{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},15,[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}],{"name":"Twilight","stars":3},"Twilight",3,{"name":"Trudy","stars":2},"Trudy",2,{"name":"The Fighter","stars":4},"The Fighter",4,{"car":null,"male":true},null,true]);
 assert.deepEqual(select(people, ".george").nodes(), [{"age":35,"movies":[{"name":"Repo Man","stars":5}]}]);
 assert.deepEqual(select(people, ".george .age").nodes(), [35]);
 assert.deepEqual(select(people, ".george .name").nodes(), ["Repo Man"]);
@@ -53,7 +56,14 @@ assert.deepEqual(select(people, ":nth-child(n-2)").nodes(), [{"name":"Trudy","st
 assert.deepEqual(select(people, ":last-child").nodes(), [{"name":"Repo Man","stars":5},{"name":"The Fighter","stars":4}]);
 assert.deepEqual(select(people, ":nth-last-child(1)").nodes(), select(people, ":last-child").nodes());
 assert.deepEqual(select(people, ":nth-last-child(2)").nodes(), [{"name":"Trudy","stars":2}]);
-assert.deepEqual(select(people, ":root").nodes(), [{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]}}]);
+assert.deepEqual(select(people, ":root").nodes(),[{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},"chris":{"car":null,"male":true}}]) 
+
+assert.deepEqual(select(people, "string").nodes(),["Repo Man","Twilight","Trudy","The Fighter"]);
+assert.deepEqual(select(people, "number").nodes(),[35,5,15,3,2,4]);
+assert.deepEqual(select(people, "boolean").nodes(),[true]);
+assert.deepEqual(select(people, "object").nodes(),[{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},"chris":{"car":null,"male":true}},{"age":35,"movies":[{"name":"Repo Man","stars":5}]},{"name":"Repo Man","stars":5},{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4},{"car":null,"male":true}]);
+assert.deepEqual(select(people, "array").nodes(),[[{"name":"Repo Man","stars":5}],[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]]);
+assert.deepEqual(select(people, "null").nodes(),[null]);
 
 
 // invalid

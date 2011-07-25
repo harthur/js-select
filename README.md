@@ -39,22 +39,25 @@ js-select supports the following [JSONSelect](http://jsonselect.org/) selectors 
 
 ```
 "*"
+"type"
 ".key"
 ".ancestor .key"
 ".parent > .key"
 ":root"
-":nth-child(2)"
+":nth-child(i)"
 ":nth-child(n)"
 ":nth-child(even)"
 ":nth-child(odd)"
-":nth-last-child(2)"
+":nth-last-child(i)"
 ":first-child"
 ":last-child"
 ```
 
+See [details](http://jsonselect.org/#docs/overview) on each selector, and [try them](http://jsonselect.org/#tryit) out on the JSONSelect website.
+
 # install
 
-Download the code, then with [npm](http://npmjs.org):
+Download the code, then with [node](http://nodejs.org) and [npm](http://npmjs.org):
 
 ```bash
 npm install js-select
