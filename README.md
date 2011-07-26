@@ -35,7 +35,7 @@ select(obj).forEach(function(node) {
 
 # selectors
 
-js-select supports the following [JSONSelect](http://jsonselect.org/) selectors so far:
+js-select supports the following [JSONSelect](http://jsonselect.org/) selectors:
 
 ```
 *
@@ -53,6 +53,8 @@ type
 :last-child
 :only-child
 :has(selector)
+:val("string")
+:contains("substring")
 ```
 
 See [details](http://jsonselect.org/#docs/overview) on each selector, and [try them](http://jsonselect.org/#tryit) out on the JSONSelect website.

@@ -143,6 +143,14 @@ function matchesKey(part, context) {
          return false;
       }
    }
+   if (part.expr) {
+      var expr = part.expr, lhs = expr[0], op = expr[1], rhs = expr[2];
+      if (typeof node != "string"
+          || (!lhs && op == "=" && node != rhs)   // :val("str")
+          || (!lhs && op == "*=" && node.indexOf(rhs) == -1)) { // :contains("substr")
+         return false;
+      }
+   }
    return true;
 }
 

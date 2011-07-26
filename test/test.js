@@ -71,6 +71,11 @@ assert.deepEqual(select(people, "number, string, boolean").nodes(), [35,"Repo Ma
 assert.deepEqual(select(people, ":has(.car) > .male").nodes(), [true]);
 assert.deepEqual(select(people, ".male ~ .car").nodes(), [null])
 
+assert.deepEqual(select(people, ':val("Twilight")').nodes(), ["Twilight"])
+assert.deepEqual(select(people, ':val("Twi")').nodes(), [])
+assert.deepEqual(select(people, ':contains("Twi")').nodes(), ["Twilight"])
+assert.deepEqual(select(people, ':contains("weif")').nodes(), [])
+
 // invalid
 assert.deepEqual(select(people, ".hmmm").nodes(), []);
 assert.throws(function() {
