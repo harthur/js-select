@@ -68,7 +68,7 @@ function matches(sel, context) {
       if (matchesKey(part, context)) {
          j--;
       }
-      else if(must) {
+      else if (must) {
          return false;
       }
 
@@ -88,22 +88,21 @@ function matchesKey(part, context) {
    }
    if (part.type) {
       if (part.type == "null") {
-         if (context.node !== null) {
+         if (node !== null) {
             return false;
          }
       }
       else if (part.type == "array") {
-         if (!isArray(context.node)) {
+         if (!isArray(node)) {
             return false;
          }
       }
       else if (part.type == "object") {
-         if (typeof context.node != "object"
-             || context.node === null || isArray(context.node)) {
+         if (typeof node != "object" || node === null || isArray(node)) {
              return false;
          }
       }
-      else if (part.type != typeof context.node) {
+      else if (part.type != typeof node) {
          return false;
       }
    }
@@ -117,14 +116,12 @@ function matchesKey(part, context) {
       }
    }
    if (part.pf == ":nth-last-child") {
-      var n = context.parent && context.parent.node.length;
-      if (!n || key != n - part.b) {
+      if (!parent || key != parent.node.length - part.b) {
          return false;
       }
    }
    if (part.pc == ":only-child") {
-      var n = context.parent && context.parent.node.length;
-      if (!n || n != 1) {
+      if (!parent || parent.node.length != 1) {
          return false;
       }
    }
