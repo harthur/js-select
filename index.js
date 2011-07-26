@@ -33,7 +33,7 @@ function parseSelectors(string) {
 }
 
 function getSelectors(parsed) {
-   if (parsed[0] == ",") {
+   if (parsed[0] == ",") {  // "selector1, selector2"
       return parsed.slice(1);
    }
    return [parsed];
@@ -87,22 +87,20 @@ function matchesKey(part, context) {
       return false;
    }
    if (part.type) {
-      if (part.type == "null") {
-         if (node !== null) {
-            return false;
-         }
+      var type = part.type;
+
+      if (type == "null" && node !== null) {
+         return false;
       }
-      else if (part.type == "array") {
-         if (!isArray(node)) {
-            return false;
-         }
+      else if (type == "array" && !isArray(node)) {
+         return false;
       }
-      else if (part.type == "object") {
-         if (typeof node != "object" || node === null || isArray(node)) {
-             return false;
-         }
+      else if (type == "object" && (typeof node != "object"
+                 || node === null || isArray(node))) {
+         return false;
       }
-      else if (part.type != typeof node) {
+      else if ((type == "boolean" || type == "string" || type == "number")
+               && type != typeof node) {
          return false;
       }
    }
@@ -115,15 +113,13 @@ function matchesKey(part, context) {
          return false;
       }
    }
-   if (part.pf == ":nth-last-child") {
-      if (!parent || key != parent.node.length - part.b) {
+   if (part.pf == ":nth-last-child"
+      && (!parent || key != parent.node.length - part.b)) {
          return false;
-      }
    }
-   if (part.pc == ":only-child") {
-      if (!parent || parent.node.length != 1) {
+   if (part.pc == ":only-child"
+      && (!parent || parent.node.length != 1)) {
          return false;
-      }
    }
    if (part.pc == ":root" && key !== undefined) {
       return false;
