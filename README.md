@@ -39,9 +39,10 @@ js-select supports the following [JSONSelect](http://jsonselect.org/) selectors:
 *
 type
 .key
-.ancestor .key
-.parent > .key
-.sibling ~ .key
+ancestor selector
+parent > selector
+sibling ~ selector
+selector1, selector2
 :root
 :nth-child(n)
 :nth-child(even)
