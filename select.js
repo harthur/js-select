@@ -1455,5 +1455,4 @@ require.modules["/node_modules/JSONSelect/src/jsonselect.js"] = function () {
     __require.modules["/node_modules/JSONSelect/src/jsonselect.js"]._cached = module.exports;
     return module.exports;
 };
-
-return require('js-select')})()
+ return require('js-select')})();
