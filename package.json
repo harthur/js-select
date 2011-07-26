@@ -10,7 +10,7 @@
     "main": "./index",
     "dependencies": {
         "traverse": "0.4.x",
-        "JSONSelect": "0.2.x"
+        "JSONSelect": "0.2.1"
     },
     "devDependencies": {
         "nomnom": "0.6.x",

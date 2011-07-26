@@ -3,8 +3,6 @@
 js-select uses [js-traverse](https://github.com/substack/js-traverse) to traverse and modify JavaScript object nodes that match [JSONSelect](http://jsonselect.org/) selectors:
 
 ```javascript
-var select = require("js-select");
-
 var people = {
    george: {
       age : 35,
@@ -61,13 +59,13 @@ See [details](http://jsonselect.org/#docs/overview) on each selector, and [try t
 
 # install
 
-Download the code, then with [node](http://nodejs.org) and [npm](http://npmjs.org):
+For [node](http://nodejs.org), install with [npm](http://npmjs.org):
 
 ```bash
 npm install js-select
 ```
 
-Get a browser file after npm-installing using [browserify](https://github.com/substack/node-browserify):
+For the browser, download the select.js file or fetch the latest version from [npm](http://npmjs.org) and build a browser file using [browserify](https://github.com/substack/node-browserify):
 
 ```bash
 npm install browserify -g
