@@ -29,6 +29,10 @@ module.exports = function(obj, string) {
 
 function parseSelectors(string) {
    var parsed = JSONSelect._parse(string || "*")[1];
+   return getSelectors(parsed);
+}
+
+function getSelectors(parsed) {
    if (parsed[0] == ",") {
       return parsed.slice(1);
    }
@@ -126,6 +130,18 @@ function matchesKey(part, context) {
    }
    if (part.pc == ":root" && key !== undefined) {
       return false;
+   }
+   if (part.has) {
+      var sels = getSelectors(part.has[0]),
+          match = false;
+      traverse(node).forEach(function(child) {
+         if (matchesAny(sels, this)) {
+            match = true;
+         }
+      });
+      if (!match) {
+         return false;
+      }
    }
    return true;
 }

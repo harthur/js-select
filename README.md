@@ -43,15 +43,16 @@ type
 .key
 .ancestor .key
 .parent > .key
+.sibling ~ .key
 :root
-:nth-child(i)
 :nth-child(n)
 :nth-child(even)
 :nth-child(odd)
-:nth-last-child(i)
+:nth-last-child(n)
 :first-child
 :last-child
 :only-child
+:has(selector)
 ```
 
 See [details](http://jsonselect.org/#docs/overview) on each selector, and [try them](http://jsonselect.org/#tryit) out on the JSONSelect website.

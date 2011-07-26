@@ -68,6 +68,8 @@ assert.deepEqual(select(people, "null").nodes(),[null]);
 
 assert.deepEqual(select(people, "number, string, boolean").nodes(), [35,"Repo Man",5,15,"Twilight",3,"Trudy",2,"The Fighter",4,true])
 
+assert.deepEqual(select(people, ":has(.car) > .male").nodes(), [true]);
+assert.deepEqual(select(people, ".male ~ .car").nodes(), [null])
 
 // invalid
 assert.deepEqual(select(people, ".hmmm").nodes(), []);
