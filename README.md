@@ -14,17 +14,19 @@ var people = {
    }
 }
 
-select(people, ".age").forEach(function(age) {
-   this.update(age - 5);
-})
+select(people, ".age").nodes();     // [35, 15]
 
-select(people, ".age").nodes();  // [30, 10]
+select(people, ".age").update(function(age) {
+   return age - 5;
+});
+
+select(people, ".age").remove();
 ```
 
-See [js-traverse](https://github.com/substack/js-traverse) for all the things you can do to modify the node. The `forEach()` callback will get the same `this` context as the `forEach()` callback from [js-traverse](https://github.com/substack/js-traverse), plus a `this.matches()` which will test if the node matches a selector:
+There's also a `forEach()` which gets a special `this` context. See [js-traverse](https://github.com/substack/js-traverse) for all the things you can do to modify and inspect the node with this context. In addition, js-select adds a `this.matches()` which will test if the node matches a selector:
 
 ```javascript
-select(obj).forEach(function(node) {
+select(people).forEach(function(node) {
    if (this.matches(".mary > .movie")) {
       this.remove();
    }

@@ -12,6 +12,18 @@ module.exports = function(obj, string) {
          });
          return nodes;
       },
+      
+      update: function(cb) {
+         this.forEach(function(node) {
+            this.update(typeof cb == "function" ? cb(node) : cb);
+         });
+      },
+      
+      remove: function() {
+         this.forEach(function(node) {
+            this.remove();
+         })
+      },
 
       forEach: function(cb) {
          traverse(obj).forEach(function(node) {

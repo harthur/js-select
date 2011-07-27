@@ -313,7 +313,7 @@ require.modules["/node_modules/js-select/package.json"] = function () {
     __require.modules["/node_modules/js-select/package.json"]._cached = module.exports;
     
     (function () {
-        module.exports = {"name":"js-select","description":"Traverse and modify objects with JSONSelect selectors","version":"0.4.0","author":"Heather Arthur <fayearthur@gmail.com>","repository":{"type":"git","url":"http://github.com/harthur/js-select.git"},"main":"./index","dependencies":{"traverse":"0.4.x","JSONSelect":"0.2.x"},"devDependencies":{"nomnom":"0.6.x","color":"0.3.x"},"keywords":["json"]};
+        module.exports = {"name":"js-select","description":"Traverse and modify objects with JSONSelect selectors","version":"0.5.0","author":"Heather Arthur <fayearthur@gmail.com>","repository":{"type":"git","url":"http://github.com/harthur/js-select.git"},"main":"./index","dependencies":{"traverse":"0.4.x","JSONSelect":"0.2.1"},"devDependencies":{"nomnom":"0.6.x","color":"0.3.x"},"keywords":["json"]};
     }).call(module.exports);
     
     __require.modules["/node_modules/js-select/package.json"]._cached = module.exports;
@@ -352,6 +352,18 @@ module.exports = function(obj, string) {
          });
          return nodes;
       },
+      
+      update: function(cb) {
+         this.forEach(function(node) {
+            this.update(typeof cb == "function" ? cb(node) : cb);
+         });
+      },
+      
+      remove: function() {
+         this.forEach(function(node) {
+            this.remove();
+         })
+      },
 
       forEach: function(cb) {
          traverse(obj).forEach(function(node) {
@@ -373,7 +385,7 @@ function parseSelectors(string) {
 }
 
 function getSelectors(parsed) {
-   if (parsed[0] == ",") {
+   if (parsed[0] == ",") {  // "selector1, selector2"
       return parsed.slice(1);
    }
    return [parsed];
@@ -408,7 +420,7 @@ function matches(sel, context) {
       if (matchesKey(part, context)) {
          j--;
       }
-      else if(must) {
+      else if (must) {
          return false;
       }
 
@@ -427,23 +439,20 @@ function matchesKey(part, context) {
       return false;
    }
    if (part.type) {
-      if (part.type == "null") {
-         if (context.node !== null) {
-            return false;
-         }
+      var type = part.type;
+
+      if (type == "null" && node !== null) {
+         return false;
       }
-      else if (part.type == "array") {
-         if (!isArray(context.node)) {
-            return false;
-         }
+      else if (type == "array" && !isArray(node)) {
+         return false;
       }
-      else if (part.type == "object") {
-         if (typeof context.node != "object"
-             || context.node === null || isArray(context.node)) {
-             return false;
-         }
+      else if (type == "object" && (typeof node != "object"
+                 || node === null || isArray(node))) {
+         return false;
       }
-      else if (part.type != typeof context.node) {
+      else if ((type == "boolean" || type == "string" || type == "number")
+               && type != typeof node) {
          return false;
       }
    }
@@ -456,17 +465,13 @@ function matchesKey(part, context) {
          return false;
       }
    }
-   if (part.pf == ":nth-last-child") {
-      var n = context.parent && context.parent.node.length;
-      if (!n || key != n - part.b) {
+   if (part.pf == ":nth-last-child"
+      && (!parent || key != parent.node.length - part.b)) {
          return false;
-      }
    }
-   if (part.pc == ":only-child") {
-      var n = context.parent && context.parent.node.length;
-      if (!n || n != 1) {
+   if (part.pc == ":only-child"
+      && (!parent || parent.node.length != 1)) {
          return false;
-      }
    }
    if (part.pc == ":root" && key !== undefined) {
       return false;
