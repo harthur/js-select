@@ -2,7 +2,7 @@ var traverse = require("traverse"),
     JSONSelect = require("JSONSelect");
 
 module.exports = function(obj, string) {
-   sels = parseSelectors(string);
+   var sels = parseSelectors(string);
 
    return {
       nodes: function() {
