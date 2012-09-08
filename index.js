@@ -24,7 +24,36 @@ module.exports = function(obj, string) {
             this.remove();
          })
       },
-
+      
+      condense: function() {
+         traverse(obj).forEach(function(node) {
+            if (!this.parent) return;
+            
+            if (this.parent.keep) {
+               this.keep = true;
+            } else {
+               var match = matchesAny(sels, this);
+               this.keep = match;
+               if (!match) {
+                  if (this.isLeaf) {
+                     this.remove();
+                  } else {
+                     this.after(function() {
+                        if (this.keep_child) {
+                           this.parent.keep_child = true;
+                        }
+                        if (!this.keep && !this.keep_child) {
+                           this.remove();
+                        }
+                     });
+                  }
+               } else {
+                  this.parent.keep_child = true;
+               }
+            }
+         });
+      },
+      
       forEach: function(cb) {
          traverse(obj).forEach(function(node) {
             if (matchesAny(sels, this)) {
