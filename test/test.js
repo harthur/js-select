@@ -30,7 +30,9 @@ var people = {
       car: null,
       male: true
    }
-}
+};
+
+var people2;
 
 assert.deepEqual(select(people, "*").nodes(), [{"george":{"age":35,"movies":[{"name":"Repo Man","stars":5}]},"mary":{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},"chris":{"car":null,"male":true}},{"age":35,"movies":[{"name":"Repo Man","stars":5}]},35,[{"name":"Repo Man","stars":5}],{"name":"Repo Man","stars":5},"Repo Man",5,{"age":15,"movies":[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}]},15,[{"name":"Twilight","stars":3},{"name":"Trudy","stars":2},{"name":"The Fighter","stars":4}],{"name":"Twilight","stars":3},"Twilight",3,{"name":"Trudy","stars":2},"Trudy",2,{"name":"The Fighter","stars":4},"The Fighter",4,{"car":null,"male":true},null,true]);
 assert.deepEqual(select(people, ".george").nodes(), [{"age":35,"movies":[{"name":"Repo Man","stars":5}]}]);
@@ -83,7 +85,7 @@ assert.throws(function() {
 });
 
 // update()
-var people2 = traverse.clone(people);
+people2 = traverse.clone(people);
 
 select(people2, ".age").update(function(age) {
     return age - 5;
@@ -99,6 +101,18 @@ people2 = traverse.clone(people);
 select(people2, ".age").remove();
 assert.deepEqual(select(people2, ".age").nodes(), []);
 
+// condense()
+people2 = traverse.clone(people);
+select(people2, ".george").condense();
+assert.deepEqual(people2, {"george": {age: 35, movies: [{name: "Repo Man", stars: 5}]}});
+
+people2 = traverse.clone(people);
+select(people2, ".hmmm").condense();
+assert.deepEqual(people2, {});
+
+people2 = traverse.clone(people);
+select(people2, ".stars").condense();
+assert.deepEqual(people2, {"george": {movies: [{stars: 5}]}, "mary": {movies: [{stars: 3},{stars: 2},{stars: 4}]}});
 
 // forEach()
 people2 = traverse.clone(people);
@@ -110,7 +124,7 @@ assert.deepEqual(select(people2, ".age").nodes(), [30, 10]);
 
 
 // this.matches()
-var people2 = traverse.clone(people);
+people2 = traverse.clone(people);
 select(people2).forEach(function(node) {
    if (this.matches(".age")) {
       this.update(node + 10);
@@ -120,7 +134,7 @@ assert.deepEqual(select(people2, ".age").nodes(), [45, 25])
 
 
 // bigger stuff
-var timeline = require("./timeline.json")
+var timeline = require("./timeline.js");
 
 console.time("select time");
 assert.equal(select(timeline, ".bug .id").nodes().length, 126);
