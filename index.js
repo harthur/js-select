@@ -12,23 +12,25 @@ module.exports = function(obj, string) {
          });
          return nodes;
       },
-      
+
       update: function(cb) {
          this.forEach(function(node) {
             this.update(typeof cb == "function" ? cb(node) : cb);
          });
+         return obj;
       },
-      
+
       remove: function() {
          this.forEach(function(node) {
             this.remove();
          })
+         return obj;
       },
-      
+
       condense: function() {
          traverse(obj).forEach(function(node) {
             if (!this.parent) return;
-            
+
             if (this.parent.keep) {
                this.keep = true;
             } else {
@@ -52,8 +54,9 @@ module.exports = function(obj, string) {
                }
             }
          });
+         return obj;
       },
-      
+
       forEach: function(cb) {
          traverse(obj).forEach(function(node) {
             if (matchesAny(sels, this)) {
@@ -61,9 +64,10 @@ module.exports = function(obj, string) {
                   return matchesAny(parseSelectors(string), this);
                };
                // inherit context from js-traverse
-               cb.call(this, node);            
+               cb.call(this, node);
             }
          });
+         return obj;
       }
    };
 }
